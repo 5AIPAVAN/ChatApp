@@ -1,8 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config()
 const connectDB = require('./config/connectDB');
 const router = require('./routes/index');
+
+// required to store jwt token in cookies
 
 
 const app = express();
@@ -13,7 +16,11 @@ app.use(cors({
 }))
 
 // must be included in order to handle the responses (res) in json format.
-app.use(express.json()); 
+app.use(express.json())
+
+// required to store jwt token in cookies
+app.use(cookieParser());
+
 const PORT = process.env.PORT || 5000;
 
 
