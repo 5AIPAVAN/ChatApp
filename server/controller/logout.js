@@ -5,6 +5,7 @@ async function logout(request,response){
             secure : true
         }
 
+        // empty the token from cookies (not cleat just check later)
         return response.cookie('token','',cookieOptions).status(200).json({
             message : "session out",
             success : true
