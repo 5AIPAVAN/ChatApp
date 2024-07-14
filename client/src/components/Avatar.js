@@ -1,7 +1,7 @@
 import React from 'react'
 import { PiUserCircle } from "react-icons/pi";
 
-export default function Avatar({userId,name,ProfilePicUrl}) {
+export default function Avatar({userId,name,ProfilePicUrl,width,height}) {
 
     let avatarName = "";
 
@@ -30,7 +30,7 @@ export default function Avatar({userId,name,ProfilePicUrl}) {
 
 
   return (
-    <div className={`text-slate-800  rounded-full font-bold relative`} style={{width : '90px', height : '90px' }}>
+    <div className={`text-slate-800  rounded-full font-bold relative`} style={{width : width+"px", height : height+"px" }}>
     {
         ProfilePicUrl ? (
             <img
@@ -42,12 +42,12 @@ export default function Avatar({userId,name,ProfilePicUrl}) {
             />
         ) : (
             name ? (
-                <div  style={{width : '90px', height : '90px' }} className={`overflow-hidden rounded-full flex justify-center items-center text-lg ${bgColor[randomNumber]}`}>
+                <div  style={{width : width+"px", height : height+"px" }} className={`overflow-hidden rounded-full flex justify-center items-center text-lg ${bgColor[randomNumber]}`}>
                     {avatarName}
                 </div>
             ) :(
               <PiUserCircle
-                size={{width:'90px'}}
+                size={{width}}
               />
             )
         )

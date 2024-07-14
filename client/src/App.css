@@ -1,4 +1,15 @@
-.App {
+.scrollbar::-webkit-scrollbar{
+  width: 10px;
+}
+.scrollbar::-webkit-scrollbar-track{
+  @apply bg-slate-100 
+}
+.scrollbar::-webkit-scrollbar-thumb{
+  @apply bg-slate-200 rounded-full
+}
+
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +46,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

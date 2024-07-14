@@ -86,6 +86,8 @@ const CheckPasswordPage = () => {
                 <Avatar
                   name={location?.state?.name}
                   ProfilePicUrl={location?.state?.profile_pic}
+                  width={90}
+                  height={90}
                 />
                 <h2 className='font-semibold text-lg mt-1'>{location?.state?.name}</h2>
             </div>
