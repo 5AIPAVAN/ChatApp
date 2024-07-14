@@ -6,9 +6,16 @@ import axios from 'axios'
 import toast from 'react-hot-toast';
 import Avatar from '../components/Avatar';
 
+import { useDispatch } from 'react-redux';
+import { setToken, setUser } from '../redux/userSlice';
+
 const CheckPasswordPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const dispatch = useDispatch()
+
+
   console.log("id from location obtianed by navigate from email page"+location?.state._id);
   const [data,setData] = useState({
     password : "",
@@ -55,7 +62,8 @@ const CheckPasswordPage = () => {
         toast.success(response.data.message)
 
         if(response.data.success){
-         
+          dispatch(setToken(response?.data?.token))
+          localStorage.setItem('token',response?.data?.token)
 
             setData({
               password : "",
@@ -105,7 +113,7 @@ const CheckPasswordPage = () => {
 
           </form>
 
-          <p className='my-3 text-center'>Already have account ? <Link to={"/email"} className='hover:text-primary font-semibold'>Login</Link></p>
+          <p className='my-3 text-center'>Forgot Password ? <Link to={"/forgotpassword"} className='hover:text-primary font-semibold'>Click Here</Link></p>
         </div>
     </div>
   )
