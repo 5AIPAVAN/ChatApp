@@ -12,6 +12,7 @@ import { FiArrowUpLeft } from "react-icons/fi";
 
 import { useDispatch} from 'react-redux';
 import Divider from './Divider.js';
+import SearchUser from './SearchUser.js';
 
 
 export default function Sidebar() {
@@ -19,7 +20,7 @@ export default function Sidebar() {
 
 
     const [editUser,setEditUser] = useState(false);
-    const [openSearchUser,setopenSearchUser] = useState(false);
+    const [openSearchUser,setOpenSearchUser] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -42,7 +43,7 @@ export default function Sidebar() {
                         />
             </NavLink>
 
-            <NavLink title='add friend' className='hover:bg-slate-500 w-12 h-12 flex justify-center items-center cursor-pointer  text-slate-600' onClick={()=>{setopenSearchUser(true)}} >
+            <NavLink title='add friend' className='hover:bg-slate-500 w-12 h-12 flex justify-center items-center cursor-pointer  text-slate-600' onClick={()=>{setOpenSearchUser(true)}} >
             <FaUserPlus
                             size={25}
                         />
@@ -102,7 +103,7 @@ export default function Sidebar() {
 
   {
     openSearchUser&&(
-        <EditUserDetails onClose={()=>{setEditUser(false)} } user={user}/>
+        <SearchUser onClose={()=>{setOpenSearchUser(false)}}/>
     )
   }
 
