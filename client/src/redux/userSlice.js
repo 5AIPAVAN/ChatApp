@@ -5,7 +5,8 @@ const initialState = {
   name:"",
   email:"",
   profile_pic:"",
-  token:""
+  token:"",
+  onlineUser : []// with help of this we can show green dot when user is online
 }
 
 export const userSlice = createSlice({
@@ -33,12 +34,16 @@ export const userSlice = createSlice({
     state.email = ""
     state.profile_pic = ""
     state.token =""
+   },
+
+   setOnlineUser:(state,action)=>{
+    state.onlineUser = action.payload;
    }
 
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser, setToken, logout } = userSlice.actions
+export const { setUser, setToken, logout ,setOnlineUser } = userSlice.actions
 
 export default userSlice.reducer

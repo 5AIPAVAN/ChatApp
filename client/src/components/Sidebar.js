@@ -55,6 +55,7 @@ export default function Sidebar() {
 
             <button title='edit profile' className='w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded' onClick={()=>{setEditUser(true)}}>
                 <Avatar name={user?.name}
+                userId ={user?._id}
                 ProfilePicUrl={user?.profile_pic}
                 width = {40}
                 height ={40}/>

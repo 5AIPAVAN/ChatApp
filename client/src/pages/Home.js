@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 import { useDispatch } from 'react-redux';
-import { logout,setUser } from '../redux/userSlice';
+import { logout,setOnlineUser,setUser } from '../redux/userSlice';
 import { useNavigate,useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import logo from '../assets/logo.png'
@@ -15,7 +15,8 @@ export default function Home() {
   const navigate = useNavigate();
   const location = useLocation()
   const user = useSelector(state => state.user);
-  console.log("user data from redux",user)
+
+  console.log("user data from redux in home.js",user)
 
   const fetchUserDetailsFromCookie= async ()=>{
     try{
@@ -63,6 +64,9 @@ useEffect(()=>{
   // obtaining data of onlineUserd sent from server 
   socketConnection.on('onlineUser',(data)=>{
     console.log(data);
+
+    // store online users data obtained from server globally in redux variables
+    dispatch(setOnlineUser(data));
   })
 
 
