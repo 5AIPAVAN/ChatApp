@@ -5,10 +5,13 @@ require('dotenv').config()
 const connectDB = require('./config/connectDB');
 const router = require('./routes/index');
 
+const {app,server} = require ('./socket/index');
+
 // required to store jwt token in cookies
 
 
-const app = express();
+//commented to use socketio server for whole application
+// const app = express();
 
 app.use(cors({
     origin:process.env.FRONTEND_URL,
@@ -32,7 +35,7 @@ app.get('/',(req,res)=>{
 app.use('/api',router)
 
 connectDB().then(()=>{
-    app.listen(PORT,()=>{
+    server.listen(PORT,()=>{
         console.log(`Server Running at port ${PORT}`);
     })
 })

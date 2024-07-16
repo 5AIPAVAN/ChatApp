@@ -5,7 +5,7 @@ async function userDetails(request,response){
         // like headers in prev project here i am going to use cookies to store token 
         const token = request.cookies.token || ""
 
-        console.log("token in user detailsssssssssss"+token);
+        // console.log("token in user detailsssssssssss"+token);
 
         // to obtain userid from signed token -> call helper functions
         // like using fetchuser like middleware in prev project

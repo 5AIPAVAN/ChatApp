@@ -8,6 +8,7 @@ import { logout,setUser } from '../redux/userSlice';
 import { useNavigate,useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import logo from '../assets/logo.png'
+import io from 'socket.io-client'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -42,6 +43,47 @@ export default function Home() {
   useEffect(()=>{
    fetchUserDetailsFromCookie();
   },[])
+
+
+
+// Socket connection
+
+useEffect(()=>{
+
+  // io(....,{}) initializes a new Socket.IO client instance.
+  //By including an authentication token in the connection request
+  // the server can verify the identity of the client. This is important for security reasons,
+
+  const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+    auth : {
+      token : localStorage.getItem('token')
+    }
+  });
+
+  // obtaining data of onlineUserd sent from server 
+  socketConnection.on('onlineUser',(data)=>{
+    console.log(data);
+  })
+
+
+
+  return()=>{
+    socketConnection.disconnect()
+  }
+
+},[]);
+
+
+
+
+
+
+
+
+
+
+
+
 
 const basePath = location.pathname === '/'
 
