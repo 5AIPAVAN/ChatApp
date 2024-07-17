@@ -6,7 +6,9 @@ import Avatar from './Avatar';
 import { HiDotsVertical } from "react-icons/hi";
 import { FaAngleLeft, FaImage, FaVideo } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
-
+import uploadFile from '../helpers/uploadFile';
+import { IoClose } from 'react-icons/io5';
+import wallapaper from '../assets/wallapaper.jpeg'
 export default function MessagePage() {
 
   const params = useParams();
@@ -27,9 +29,55 @@ export default function MessagePage() {
     _id : ""
   });
 
+  const [message,setMessage] = useState({
+    text : "",
+    imageUrl : "",
+    videoUrl : ""
+  })
+
   const [openImageVideoUpload,setOpenImageVideoUpload] = useState(false);
   const handleUploadImageVideoOpen = ()=>{
     setOpenImageVideoUpload(preve => !preve)
+  }
+
+  const handleUploadImage= async(e)=>{
+    const file = e.target.files[0]
+    const uploadPhoto = await uploadFile(file)
+    setMessage((preve)=>{
+      return{
+        ...preve,
+        imageUrl : uploadPhoto?.url
+      }
+    })
+  }
+
+  const handleUploadVideo= async(e)=>{
+    const file = e.target.files[0]
+    const uploadVideo = await uploadFile(file)
+    setMessage((preve)=>{
+      return{
+        ...preve,
+        videoUrl : uploadVideo?.url
+      }
+    })
+  }
+
+  const handleClearUploadImage=()=>{
+    setMessage((preve)=>{
+      return{
+        ...preve,
+        imageUrl : ""
+      }
+    })
+  }
+
+  const handleClearUploadVideo = ()=>{
+    setMessage(preve => {
+      return{
+        ...preve,
+        videoUrl : ""
+      }
+    })
   }
 
   useEffect(()=>{
@@ -44,7 +92,7 @@ export default function MessagePage() {
   },[socketConnection,params.userId,user])
 
   return (
-    <div>
+    <div style={{'backgroundImage':`url(${wallapaper})`}}  className='bg-no-repeat bg-cover bg-opacity-50'>
 
 {/* Top header section */}
 
@@ -83,6 +131,43 @@ export default function MessagePage() {
 
           <section className='h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar relative bg-slate-200 bg-opacity-50'>
             Messages will be shown here
+             {/**upload Image display */}
+             {
+                    message.imageUrl && (
+                      <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
+                        <div className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' onClick={handleClearUploadImage}>
+                            <IoClose size={30}/>
+                        </div>
+                        <div className='bg-white p-3'>
+                            <img
+                              src={message.imageUrl}
+                              alt='uploadImage'
+                              className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
+                            />
+                        </div>
+                      </div>
+                    )
+                  }
+
+                  {/**upload video display */}
+                  {
+                    message.videoUrl && (
+                      <div className='w-full h-full sticky bottom-0 bg-slate-700 bg-opacity-30 flex justify-center items-center rounded overflow-hidden'>
+                        <div className='w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600' onClick={handleClearUploadVideo}>
+                            <IoClose size={30}/>
+                        </div>
+                        <div className='bg-white p-3'>
+                            <video 
+                              src={message.videoUrl} 
+                              className='aspect-square w-full h-full max-w-sm m-2 object-scale-down'
+                              controls
+                              muted
+                              autoPlay
+                            />
+                        </div>
+                      </div>
+                    )
+                  }
           </section>
 
 
@@ -112,6 +197,16 @@ export default function MessagePage() {
               </div>
               <p> Video </p>
              </label>
+
+             <input type='file'
+             id='uploadImage'
+             onChange={handleUploadImage}
+             className='hidden'/>
+
+             <input type='file'
+             id='uploadVideo'
+             onChange={handleUploadVideo}
+             className='hidden'/>
 
             </form>
           </div>)
