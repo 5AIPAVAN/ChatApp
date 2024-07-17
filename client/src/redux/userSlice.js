@@ -6,7 +6,8 @@ const initialState = {
   email:"",
   profile_pic:"",
   token:"",
-  onlineUser : []// with help of this we can show green dot when user is online
+  onlineUser : [], // with help of this we can show green dot when user is online
+  socketConnection : null
 }
 
 export const userSlice = createSlice({
@@ -34,16 +35,21 @@ export const userSlice = createSlice({
     state.email = ""
     state.profile_pic = ""
     state.token =""
+    state.socketConnection=""
    },
 
    setOnlineUser:(state,action)=>{
     state.onlineUser = action.payload;
+   },
+
+   setSocketConnection:(state,action)=>{
+    state.socketConnection = action.payload;
    }
 
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser, setToken, logout ,setOnlineUser } = userSlice.actions
+export const { setUser, setToken, logout, setOnlineUser, setSocketConnection } = userSlice.actions
 
 export default userSlice.reducer

@@ -2,6 +2,7 @@ const express = require('express');
 const { Server } = require('socket.io');
 const http = require('http');
 const getUserDetailsFromToken = require('../helpers/getUserDetailsFromToken');
+const UserModel = require('../models/UserModel');
 
 
 
@@ -33,18 +34,18 @@ io.on('connection', async (socket)=>{
 
 
     const token = socket.handshake.auth.token
-    console.log('token from sockedio',token)
+    // console.log('token from sockedio',token)
 
     // getting user details with help of token and helper function
 
     const user = await getUserDetailsFromToken(token);
-    console.log('user fetched with token in socketio',user)
+    // console.log('user fetched with token in socketio',user)
 
 
     // creating a room for obtained user
     // socket.join() is used to create rooms for particular users mentioned
     socket.join(user?._id);
-    onlineUser.add(user?._id);
+    onlineUser.add(user?._id?.toString());
 
 
     // sending onlineUsers from server with data
@@ -52,10 +53,30 @@ io.on('connection', async (socket)=>{
     io.emit('onlineUser',Array.from(onlineUser));
 
 
+    // obtains id of user you want to chat with from params in messagepage.js
+    // from that id you can obtain that user details here 
+    socket.on('message-page',async(userId)=>{
+        console.log('you are try to chat with ',userId);
+
+        const userDetails = await UserModel.findById(userId).select("-password");
+
+        const payload = {
+            _id : userDetails?._id,
+            name : userDetails?.name,
+            email : userDetails?.email,
+            profile_pic : userDetails?.profile_pic,
+            online : onlineUser.has(userId) // here you are checking wheather that user is online or not
+        }
+
+        socket.emit('message-user',payload);
+
+    })
+
+
     // executes when socked disconnected
     socket.on('disconnect',(socket)=>{
         // when use disconnected delete from onlineusers set
-        onlineUser.delete(user?._id);
+        onlineUser.delete(user?._id?.toString());
         console.log('diconnected socket : '+socket.id);
     })
 })

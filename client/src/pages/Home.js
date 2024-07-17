@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 import { useDispatch } from 'react-redux';
-import { logout,setOnlineUser,setUser } from '../redux/userSlice';
+import { logout,setOnlineUser,setSocketConnection,setUser } from '../redux/userSlice';
 import { useNavigate,useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import logo from '../assets/logo.png'
@@ -68,6 +68,8 @@ useEffect(()=>{
     // store online users data obtained from server globally in redux variables
     dispatch(setOnlineUser(data));
   })
+
+  dispatch(setSocketConnection(socketConnection));
 
 
 

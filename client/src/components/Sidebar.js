@@ -43,11 +43,9 @@ export default function Sidebar() {
                         />
             </NavLink>
 
-            <NavLink title='add friend' className='hover:bg-slate-500 w-12 h-12 flex justify-center items-center cursor-pointer  text-slate-600' onClick={()=>{setOpenSearchUser(true)}} >
-            <FaUserPlus
-                            size={25}
-                        />
-            </NavLink>
+            <div title='add friend' onClick={()=>setOpenSearchUser(true)} className='w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded' >
+                        <FaUserPlus size={20}/>
+                    </div>
 
         </div>
 
