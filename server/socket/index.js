@@ -56,7 +56,8 @@ io.on('connection', async (socket)=>{
 
 
     // obtains id of user you want to chat with from params in messagepage.js
-    // from that id you can obtain that user details here 
+    // from that id you can obtain that user details here  
+    // you can also get your existing chat here with help of his id(receiver/friend)
     socket.on('message-page',async(userId)=>{
         console.log('you are try to chat with ',userId);
 
@@ -71,6 +72,17 @@ io.on('connection', async (socket)=>{
         }
 
         socket.emit('message-user',payload);
+
+         //getting previous message of your chat between you and your friend
+         // checking conversation model for getting previous messages
+         const getConversationMessage = await ConversationModel.findOne({
+            "$or" : [
+                { sender : user?._id, receiver : userId },
+                { sender : userId, receiver :  user?._id}
+            ]
+        }).populate('messages').sort({ updatedAt : -1 })
+
+        socket.emit('message',getConversationMessage?.messages || [])
 
     })
 

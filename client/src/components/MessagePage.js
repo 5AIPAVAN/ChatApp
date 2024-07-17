@@ -143,6 +143,9 @@ export default function MessagePage() {
            })
 
            // getting latest conversation from backend after addubg new message sent
+           // getting existing conversation before sending message also comes here
+           // check backend at line 84 - getting existing messages
+           // and lines 141,142 for getting updated messages after adding new message
            socketConnection.on('message',(data)=>{
             console.log('message data',data)
             setAllMessage(data)
