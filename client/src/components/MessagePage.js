@@ -4,7 +4,8 @@ import { useParams,Link } from 'react-router-dom'
 import { Socket } from 'socket.io-client';
 import Avatar from './Avatar';
 import { HiDotsVertical } from "react-icons/hi";
-import { FaAngleLeft } from "react-icons/fa6";
+import { FaAngleLeft, FaImage, FaVideo } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa6";
 
 export default function MessagePage() {
 
@@ -25,6 +26,11 @@ export default function MessagePage() {
     online : false,
     _id : ""
   });
+
+  const [openImageVideoUpload,setOpenImageVideoUpload] = useState(false);
+  const handleUploadImageVideoOpen = ()=>{
+    setOpenImageVideoUpload(preve => !preve)
+  }
 
   useEffect(()=>{
     if(socketConnection){
@@ -75,8 +81,44 @@ export default function MessagePage() {
 
           {/* Message section */}
 
-          <section className='h-[calc(100vh-64px)] bg-red'>
+          <section className='h-[calc(100vh-128px)] overflow-x-hidden overflow-y-scroll scrollbar relative bg-slate-200 bg-opacity-50'>
             Messages will be shown here
+          </section>
+
+
+
+          {/* bottom input section */}
+
+          <section className='h-16 bg-white flex items-center px-4'>
+          
+          <div className='realtive '>
+            <button onClick={handleUploadImageVideoOpen} className='flex justify-center items-center rounded-full w-11 h-11 hover:bg-primary hover:text-white'> 
+            <FaPlus size={20}/>
+            </button>
+
+ {
+            openImageVideoUpload &&  (<div className='bg-white shadow rounded absolute bottom-20 w-36 p-2'>
+            <form>
+             <label htmlFor='uploadImage' className='flex items-center p-2 px-2 gap-3 hover:bg-slate-200 cursor-pointer'>
+              <div className='text-primary'>
+                <FaImage size={18}/>
+              </div>
+              <p> Image </p>
+             </label>
+
+             <label htmlFor='uploadVideo' className='flex items-center p-2 px-2 gap-3 hover:bg-slate-200 cursor-pointer'>
+              <div className='text-purple-500'>
+                <FaVideo size={18}/>
+              </div>
+              <p> Video </p>
+             </label>
+
+            </form>
+          </div>)
+}
+        
+          </div>
+
           </section>
 
 
